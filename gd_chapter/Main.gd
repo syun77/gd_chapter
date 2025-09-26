@@ -16,23 +16,26 @@ class Chapter:
 		print("# %s"%header)
 		print(body)
 
+@onready var _bg := $Bg
 @onready var _label := $Label
 @onready var _text_body := $TextBody
 @onready var _chapter_drop := $ChapterIdx
 @onready var _chapter_text := $Chapter
 
+var chapter_no:int = 1
 var chapter_list:Array[Chapter] = []
 var scroll_y:float = 0
 var total_time:float = 0
 var ofs_time:float = 0
 
-func _init() -> void:
+func init() -> void:
 	scroll_y = 0
 	total_time = 0
 	ofs_time = 0
+	_bg.texture = load("res://assets/images/%03d.png"%chapter_no)
 
 func _ready() -> void:
-	for i in range(6):
+	for i in range(7):
 		_chapter_drop.add_item("CH%d"%(i+1))
 	
 	var file_path = "res://assets/scenario/script.txt"
@@ -100,4 +103,5 @@ func _get_scroll_ratio() -> float:
 
 
 func _on_chapter_idx_item_selected(_index: int) -> void:
-	_init() # Replace with function body.
+	chapter_no = _index + 1
+	init() # Replace with function body.
